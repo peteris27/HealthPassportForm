@@ -16,11 +16,6 @@ type RootStackParamList = {
 };
 
 type PersonalDataScreenNavigationProp = StackNavigationProp<RootStackParamList>;
-("PersonalDataScreen");
-("GenderScreen");
-("EmailScreen");
-("BirthDateScreen");
-("HeightScreen");
 
 type Props = {
   navigation: PersonalDataScreenNavigationProp;
@@ -29,6 +24,7 @@ type Props = {
 const PersonalDataScreen: React.FC<Props> = ({ navigation }) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
+  const [isSavePressed, setIsSavePressed] = useState<boolean>(false);
 
   const { personalData, updatePersonalData } = usePersonalData();
 
@@ -57,6 +53,8 @@ const PersonalDataScreen: React.FC<Props> = ({ navigation }) => {
       setShowSuccessAlert(true);
       setTimeout(() => setShowSuccessAlert(false), 3000);
     }
+    setIsSavePressed(true);
+    setTimeout(() => setIsSavePressed(false), 3000);
   };
 
   const button = <CustomButton title="Save" onPress={handleSave} />;
@@ -68,27 +66,32 @@ const PersonalDataScreen: React.FC<Props> = ({ navigation }) => {
           label="First name"
           value={firstName}
           onPress={() => navigation.navigate("FirstNameScreen")}
+          isSavePressed={isSavePressed}
         />
         <FormItem
           label="Gender"
           value={gender}
           onPress={() => navigation.navigate("GenderScreen")}
+          isSavePressed={isSavePressed}
         />
         <FormItem
           label="Birth Date"
           value={birthDate}
           onPress={() => navigation.navigate("BirthDateScreen")}
+          isSavePressed={isSavePressed}
         />
         <FormItem label="Age" value={age} />
         <FormItem
           label="Height"
           value={height}
           onPress={() => navigation.navigate("HeightScreen")}
+          isSavePressed={isSavePressed}
         />
         <FormItem
           label="Email"
           value={email}
           onPress={() => navigation.navigate("EmailScreen")}
+          isSavePressed={isSavePressed}
         />
       </View>
       {showAlert && (

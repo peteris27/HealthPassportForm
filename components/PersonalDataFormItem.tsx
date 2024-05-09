@@ -1,13 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 type FormItemProps = {
   label: string;
   value: string;
   onPress?: () => void;
+  isSavePressed?: boolean;
 };
 
-const FormItem: React.FC<FormItemProps> = ({ label, value, onPress }) => {
+const defaultValues = ["Name", "Gender", "BirthDate", "0 y", "0 cm", "Email"];
+
+const FormItem: React.FC<FormItemProps> = ({
+  label,
+  value,
+  onPress,
+  isSavePressed,
+}) => {
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
       <View style={styles.textContainer}>
@@ -16,6 +25,9 @@ const FormItem: React.FC<FormItemProps> = ({ label, value, onPress }) => {
           {value}
         </Text>
       </View>
+      {isSavePressed && defaultValues.includes(value) && (
+        <Icon name="error" size={20} color="#D32F2F" style={styles.icon} />
+      )}
       <Text style={styles.arrow}>{">"}</Text>
     </TouchableOpacity>
   );
@@ -44,6 +56,9 @@ const styles = StyleSheet.create({
   arrow: {
     fontSize: 18,
     color: "#666666",
+  },
+  icon: {
+    paddingRight: 5,
   },
 });
 

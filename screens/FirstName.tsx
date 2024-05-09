@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import CustomButton from "../components/CustomButton";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import OpenScreenTemplate from "../components/OpenScreenTemplate";
 import AlertComponent from "../components/Alert";
 import { usePersonalData } from "../components/PersonalDataProvider";
+import Icon from "react-native-vector-icons/Ionicons";
 
 type RootStackParamList = {
   PersonalDataScreen: undefined;
@@ -15,8 +16,9 @@ const FirstNameScreen: React.FC = () => {
   const [firstName, setFirstName] = useState<string>(
     personalData.firstName || ""
   );
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleSave = () => {
     if (firstName) {
@@ -29,17 +31,28 @@ const FirstNameScreen: React.FC = () => {
     }
   };
 
+  const handleClear = () => {
+    setFirstName("");
+  };
+
   const content = (
-    <View>
+    <View style={styles.inputContainer}>
       <TextInput
-        style={styles.input}
+        style={[styles.input, isFocused ? styles.focusedInput : null]}
         value={firstName}
-        placeholder="Name"
+        placeholder="First name"
         onChangeText={setFirstName}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
+      {firstName !== "" && (
+        <TouchableOpacity style={styles.clearIcon} onPress={handleClear}>
+          <Icon name="close-circle" size={20} color="gray" />
+        </TouchableOpacity>
+      )}
       {showAlert && (
         <AlertComponent
-          message="Name is missing, please write your first name."
+          message="First name is missing, please type your name."
           type="error"
         />
       )}
@@ -50,7 +63,7 @@ const FirstNameScreen: React.FC = () => {
 
   return (
     <OpenScreenTemplate
-      label="First Name"
+      label="First name"
       content={content}
       button={customButton}
     />
@@ -58,6 +71,9 @@ const FirstNameScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  inputContainer: {
+    position: "relative",
+  },
   input: {
     marginLeft: 30,
     marginRight: 30,
@@ -67,6 +83,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     fontSize: 16,
+  },
+  focusedInput: {
+    borderColor: "#0000FF",
+  },
+  clearIcon: {
+    position: "absolute",
+    top: 15,
+    right: 15,
+    marginRight: 30,
   },
 });
 

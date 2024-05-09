@@ -10,9 +10,11 @@ type FormItemProps = {
 const FormItem: React.FC<FormItemProps> = ({ label, value, onPress }) => {
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
-      <View>
+      <View style={styles.textContainer}>
         <Text style={styles.label}>{label}</Text>
-        <Text style={styles.value}>{value}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.value}>
+          {value}
+        </Text>
       </View>
       <Text style={styles.arrow}>{">"}</Text>
     </TouchableOpacity>
@@ -26,6 +28,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#cccccc",
+  },
+  textContainer: {
+    flex: 1,
   },
   label: {
     fontSize: 16,

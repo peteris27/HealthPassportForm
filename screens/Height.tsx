@@ -28,7 +28,7 @@ const HeightScreen: React.FC = () => {
   const label = "How tall are You?";
 
   const content = (
-    <View>
+    <View style={{ marginTop: 40 }}>
       <RulerPicker
         min={0}
         max={252}
@@ -38,6 +38,12 @@ const HeightScreen: React.FC = () => {
         onValueChange={(value) => setHeight(parseInt(value))}
         onValueChangeEnd={(value) => setHeight(parseInt(value))}
         unit="cm"
+        height={150}
+        indicatorColor={"#0096FF"}
+        indicatorHeight={85}
+        stepWidth={3}
+        longStepHeight={60}
+        shortStepHeight={10}
       />
     </View>
   );
